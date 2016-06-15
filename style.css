@@ -1,0 +1,39 @@
+html {
+    background-color:#b3c6ff;
+    padding:0px;
+}
+h1 {
+    color:white;
+    background-color:#000080;
+}
+button {
+    height:50px;
+    width:50px;
+    float:left;
+    background-color:white;
+    border:1px solid black;
+    font-size:150%;
+}
+.region {
+    display:inline-block;
+    margin:1px;
+}
+#board {
+    background-color:black;
+    display:inline-block;
+}
+.locked {
+    font-weight:bold;
+    
+}
+.numberpad {
+    background-color:deepskyblue;
+    font-weight:normal;
+}
+
+.infected {
+    background-color:pink;
+}
+.infector {
+    background-color:red;
+}
