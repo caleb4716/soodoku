@@ -39,7 +39,7 @@ $(document).ready(function(){
         }
         
         errorCheckBoard(){
-            $('button').removeClass('infected');
+            $('.square').removeClass('infected');
             var infected = new Array();
             for(var i = 0; i < 9; i++){
                 if(hasDuplicates(fullRegionArray[i])){
@@ -70,9 +70,9 @@ $(document).ready(function(){
     }
     
     $('body').append(newEmptyBoardStringDos());
-    loadBoard("puzzle_03.json");
+    loadBoard("puzzle_02.json");
     
-    $('button').on('click', function(){
+    $('.square').on('click', function(){
         clickedSquare = fullSquareArray[$(this).attr('id')];
         if(numberPad){
             numberPad = false;
@@ -228,3 +228,5 @@ $(document).ready(function(){
 
 //JSON EXTRACT CODE
 //  for(var selector="#f",jsonData="{",idIndex=0,row=0;9>row;row++)for(var col=0;9>col;col++){var out=$(selector+col+row).getAttribute("value");out||(out="-1"),jsonData+='"'+idIndex+'":"'+out+'"',80!=idIndex&&(jsonData+=","),idIndex++}jsonData+="}",console.log(jsonData);
+
+
