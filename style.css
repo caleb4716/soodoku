@@ -26,13 +26,12 @@ h1 {
     font-weight:bold;
     
 }
+.infected {
+    background-color:pink;
+}
 .numberpad {
     background-color:deepskyblue;
     font-weight:normal;
-}
-
-.infected {
-    background-color:pink;
 }
 .infector {
     background-color:red;
