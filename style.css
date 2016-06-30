@@ -1,16 +1,31 @@
-html {
-    background-color:#b3c6ff;
-    padding:0px;
+
+
+#con {
+    background-image:url(textures/notebook_paper_texture_1.jpg);
 }
-h1 {
-    color:white;
-    background-color:#000080;
+#puzzle-div {
+    text-align:center;
 }
+#control-panel {
+    text-align:center;
+    width:450px;
+    margin:0 auto;
+    background-color:transparent;
+}
+.panel, .panel-default, .panel-body, .btn-group {
+    background-color:transparent;
+}
+
+
+
+
+
+
 .square {
     height:50px;
     width:50px;
     float:left;
-    background-color:white;
+    background-color:transparent;
     border:1px solid black;
     font-size:150%;
 }
@@ -19,20 +34,16 @@ h1 {
     margin:1px;
 }
 #board {
-    background-color:black;
+    background-color:transparent;
     display:inline-block;
 }
 .locked {
-    font-weight:bold;
-    
+    font-weight:bold; 
 }
 .infected {
-    background-color:pink;
+    background-image:url(textures/pink_texture_1.jpe);
 }
 .numberpad {
-    background-color:deepskyblue;
+    background-image:url(textures/blue_texture_1.jpe);
     font-weight:normal;
-}
-.infector {
-    background-color:red;
 }
