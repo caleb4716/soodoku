@@ -5,6 +5,7 @@
     var numberPad;
     var selectedRegion;
     var selectedSquare;
+    var currentPuzzle;
 
 $(document).ready(function(){
     
@@ -25,12 +26,12 @@ $(document).ready(function(){
             this.realValue();
             this.errorCheckBoard();
         }
-        numberPadValue(){ //Sets all squares in caller's region to their numberpad values;
+        numberPadValue(){ //Updates square to display numberpad (tempVal) value
             $(this.selector).text(this.tempVal);
         }
-        realValue(){
+        realValue(){ //Update display to reflect squares real value
             if(this.value != -1){
-                $(this.selector).text(this.value);//regions columsn
+                $(this.selector).text(this.value);
                 
             } else {
                 $(this.selector).text("");
@@ -69,10 +70,14 @@ $(document).ready(function(){
         fullRegionArray.push([]);
     }
     
-    $('body').append(newEmptyBoardStringDos());
-    loadBoard("puzzle_02.json");
+    $('#puzzle-div').append(newEmptyBoardStringDos());
+    currentPuzzle = "dne";
+    setSquareListeners();
     
-    $('.square').on('click', function(){
+    
+    //Listeners================================================================================================================================
+    function setSquareListeners(){
+        $('.square').on('click', function(){
         clickedSquare = fullSquareArray[$(this).attr('id')];
         if(numberPad){
             numberPad = false;
@@ -104,7 +109,38 @@ $(document).ready(function(){
         }
         
     });
+    }
     
+    $('#btn-reset').on('click', function(){
+        
+        clearAndSetBoard(currentPuzzle);
+        
+    });
+    
+    $('.btn-difficulty-select').on('click', function(){
+        var difficulty = $(this).attr('id');
+        if(difficulty == 'random'){
+            //Randomly reassign difficulty var to easy, med, hard, impossible
+            var random = Math.floor((Math.random() * 4) + 1);
+            switch(random) {
+                case 1:
+                    difficulty = 'easy';
+                    break;
+                case 2:
+                    difficulty = 'medium';
+                    break;
+                case 3:
+                    difficulty = 'difficult';
+                    break;
+                case 4:
+                    difficulty = 'impossible';
+                    break;
+            }
+        }
+        var path = "json/" + difficulty + "/1.json";
+        clearAndSetBoard(path);
+    });
+
     
 //    function loadBoard(srcPath){
 //        $.getJSON(srcPath)
@@ -144,7 +180,7 @@ $(document).ready(function(){
         });
     }
     
-    function newEmptyBoardStringDos(){
+    function newEmptyBoardStringDos(){ //Builds and returns new html string for insertion into DOM
         
         var htmlBuildString = "<div id='board'>";
         var id = 0;
@@ -169,12 +205,13 @@ $(document).ready(function(){
                     else if(x < 6){regionID = 7;}
                     else{regionID = 8;}
                 }
-                var thisSquare = new Square(x, y, regionID, id);
-                fullSquareArray.push(thisSquare);
-                fullRowArray[y][x] = thisSquare;
-                fullColumnArray[x][y] = thisSquare;
-                fullRegionArray[thisSquare.regionID].push(thisSquare);
-                thisSquare.tempVal = fullRegionArray[thisSquare.regionID].length;
+                registerNewSquare(x,y,regionID,id);
+//                var thisSquare = new Square(x, y, regionID, id);
+//                fullSquareArray.push(thisSquare);
+//                fullRowArray[y][x] = thisSquare;
+//                fullColumnArray[x][y] = thisSquare;
+//                fullRegionArray[thisSquare.regionID].push(thisSquare);
+//                thisSquare.tempVal = fullRegionArray[thisSquare.regionID].length;
                 id++;
             }
             htmlBuildString += "<br>";
@@ -185,7 +222,37 @@ $(document).ready(function(){
         
     }
     
-    function borderize(){
+    function clearAndSetBoard(src){
+        fullSquareArray = [];
+        
+        for(var i = 0; i < 9; i++){
+            fullRegionArray[i] = [];
+            for(var ii = 0; ii < 9; ii++){
+                fullColumnArray[i][ii] = null;
+                fullRowArray[i][ii] = null;
+            }
+        }
+        
+        numberPad = false;
+        selectedRegion = null;
+        selectedSquare = null;
+        $('#board').remove();
+        $('#puzzle-div').append(newEmptyBoardStringDos());
+        loadBoard(src);
+        setSquareListeners();
+        currentPuzzle = src;
+    }
+    
+    function registerNewSquare(x, y, regionID, id){ //Builds new square with passed info, registers with all tracking arrays, sets TempVal
+        var thisSquare = new Square(x, y, regionID, id);
+        fullSquareArray.push(thisSquare);
+        fullRowArray[y][x] = thisSquare;
+        fullColumnArray[x][y] = thisSquare;
+        fullRegionArray[thisSquare.regionID].push(thisSquare);
+        thisSquare.tempVal = fullRegionArray[thisSquare.regionID].length;   
+    }
+    
+    function borderize(){ //Manipulates css to visually establish region boundaries
         for(var i = 0; i < 9; i++){
             $(fullColumnArray[0][i].selector).css("border-left", "3px solid black");
             $(fullColumnArray[2][i].selector).css("border-right", "3px solid black");
@@ -199,7 +266,7 @@ $(document).ready(function(){
         }
     }
     
-    function hasDuplicates(arr){
+    function hasDuplicates(arr){ //Takes an array, returns if array contains duplicate values or not
         
         var dupes = false;
         var valArr = new Array();
