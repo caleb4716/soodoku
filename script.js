@@ -7,6 +7,9 @@
     var selectedSquare;
     var currentPuzzle;
 
+//Following is not good. Keep even # of json in each difficulty dir, hardcode here for randomized puzzle picking within dir
+var puzzleCount = 2;
+
 $(document).ready(function(){
     
     //Classes====================================================================================================================================
@@ -58,6 +61,16 @@ $(document).ready(function(){
                     $(infected[i][ii].selector).addClass('infected');
                 }
             }
+            if(infected.length == 0){ //this is wrongly firing victories. needs fixing
+                for(var i = 0; i < fullSquareArray.length; i++){
+                    if(fullSquareArray[i].value == -1){
+                        break;
+                    } else if(i = 80){
+                        victory();
+                    }
+                }
+            }
+        
         }
         
     }
@@ -71,7 +84,7 @@ $(document).ready(function(){
     }
     
     $('#puzzle-div').append(newEmptyBoardStringDos());
-    currentPuzzle = "dne";
+    currentPuzzle = "";
     setSquareListeners();
     
     
@@ -120,9 +133,9 @@ $(document).ready(function(){
     $('.btn-difficulty-select').on('click', function(){
         var difficulty = $(this).attr('id');
         if(difficulty == 'random'){
-            //Randomly reassign difficulty var to easy, med, hard, impossible
-            var random = Math.floor((Math.random() * 4) + 1);
-            switch(random) {
+            //Randomly reassign difficulty var to easy, med, hard, impossible NOT CURRENTLY RANDOM NEEDS WORK
+            var dirID = Math.floor((Math.random() * 4) + 1);
+            switch(dirID) {
                 case 1:
                     difficulty = 'easy';
                     break;
@@ -137,31 +150,34 @@ $(document).ready(function(){
                     break;
             }
         }
-        var path = "json/" + difficulty + "/1.json";
+        //Fix this stuff when you have time. Find a way to dynamically count difficulty dirs
+        var puzzleID = Math.floor((Math.random() * puzzleCount) + 1);
+        var path = "json/" + difficulty + "/" + puzzleID + ".json";
         clearAndSetBoard(path);
+        updateDifficultyFooter(difficulty, puzzleID);
     });
-
     
-//    function loadBoard(srcPath){
-//        $.getJSON(srcPath)
-//        .done(function(data){ //data.grid_data[regionID][squareID].val
-//            
-//            $.each(data.grid_data, function(reg, arr){
-//                for(var i = 0; i < 9; i++){
-//                    if(arr[i].val != -1){
-//                        fullRegionArray[reg][i].updateValue(arr[i].val);
-//                        fullRegionArray[reg][i].locked = true;
-//                        $(fullRegionArray[reg][i].selector).addClass('locked');
-//                    }
-//                }
-//            });
-//            borderize();
-//        })
-//        .fail(function(){
-//            //Fails to load grid_data from json
-//        });
-//        
-//    }
+    function updateDifficultyFooter(dif, id){
+//        var str = "Difficulty: " + dif + " | Board ID: " + id;
+//        $('#difficulty-label').text(str);
+        var lblType;
+        switch(dif){
+            case "easy":
+                lblType = "-success";
+                break;
+            case "medium":
+                lblType = "-warning";
+                break;
+            case "difficult":
+                lblType = "-danger";
+                break;
+            case "impossible":
+                lblType = "-default";
+                break;
+        }
+        var htmlInsert = "<span class='label label" + lblType + "' >" + dif + "</span> #" + id;
+        $('#difficulty-label').html(htmlInsert);
+    }
     
     function loadBoard(srcPath){
         $.getJSON(srcPath)
@@ -287,10 +303,12 @@ $(document).ready(function(){
         return dupes;
         
     }
+    
+    function victory(){
+        console.log('Victory detected');
+    }
 
 });
-
-
 
 
 //JSON EXTRACT CODE

@@ -33,20 +33,23 @@
         <div id="con" class="container-fluid">
             
             <div id="control-panel">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h4 class="panel-title"><b>Soodoku</b></h4>
                     </div>
                     <div class="panel-body">
                         <div class="btn-group">
                             <button type="button" id="btn-new" class="btn btn-default" data-toggle="modal" data-target="#random-board-modal">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Board
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Random
                             </button>
                             <button type="button" id="btn-reset" class="btn btn-default">
                                 <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Reset Board
                             </button>
                         </div>
                         
+                    </div>
+                    <div class="panel-footer">
+                        <h4 id="difficulty-label"></h4>
                     </div>
                 </div>
             </div>
@@ -69,17 +72,17 @@
                         <div class="btn-toolbar">
                             <div class="btn-group">
                                 
-                                <button type="button" id = "easy" class="btn btn-default btn-difficulty-select" data-dismiss="modal">Easy</button>
+                                <button type="button" id = "easy" class="btn btn-success btn-difficulty-select" data-dismiss="modal">Easy</button>
                                 
-                                <button type="button" id = "medium" class="btn btn-default btn-difficulty-select" data-dismiss="modal">Medium</button>
+                                <button type="button" id = "medium" class="btn btn-warning btn-difficulty-select" data-dismiss="modal">Medium</button>
                                 
-                                <button type="button" id = "difficult" class="btn btn-default btn-difficulty-select" data-dismiss="modal">Difficult</button>
+                                <button type="button" id = "difficult" class="btn btn-danger btn-difficulty-select" data-dismiss="modal">Difficult</button>
                                 
-                                <button type="button" id = "impossible" class="btn btn-default btn-difficulty-select" data-dismiss="modal">Impossible</button>
+                                <button type="button" id = "impossible" class="btn btn-difficulty-select" data-dismiss="modal">Impossible</button>
                                 
                             </div>
                             <div class="btn-group">
-                                <button type="button" id="random" class="btn btn-default btn-difficulty-select" data-dismiss="modal">I'm feeling brave today (Random)</button>
+                                <button type="button" id="random" class="btn btn-default btn-difficulty-select" data-dismiss="modal">I'm feeling lucky (Random)</button>
                             </div>
                         </div>
                         

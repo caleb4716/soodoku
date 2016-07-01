@@ -37,6 +37,13 @@
     background-color:transparent;
     display:inline-block;
 }
+#difficulty-label {
+    text-transform: capitalize;
+}
+button#impossible {
+    background-color:#777;
+    color:white;
+}
 .locked {
     font-weight:bold; 
 }
