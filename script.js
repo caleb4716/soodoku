@@ -8,7 +8,7 @@
     var currentPuzzle;
 
 //Following is not good. Keep even # of json in each difficulty dir, hardcode here for randomized puzzle picking within dir
-var puzzleCount = 2;
+var puzzleCount = 8;
 
 $(document).ready(function(){
     
@@ -304,7 +304,7 @@ $(document).ready(function(){
         
     }
     
-    function victory(){
+    function victory(){ // this function should be called when all squares are filled and no errors are detected
         console.log('Victory detected');
     }
 
