@@ -1,6 +1,6 @@
 
 
-#con {
+body {
     background-image:url(textures/notebook_paper_texture_1.jpg);
 }
 #puzzle-div {
@@ -66,6 +66,10 @@ button#impossible {
     .square {
         height:11vw;
         width:11vw;
+    }
+    .container-fluid {
+        padding-left:0px !important;
+        padding-right:0px !important;
     }
     
 }
