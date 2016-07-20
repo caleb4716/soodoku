@@ -55,3 +55,17 @@ button#impossible {
     background-image:url(textures/blue_texture_1.jpe);
     font-weight:normal;
 }
+
+
+
+@media screen and (max-width: 450px) {
+    
+    #board, #control-panel {
+        width:100vw;
+    }
+    .square {
+        height:11vw;
+        width:11vw;
+    }
+    
+}
