@@ -34,6 +34,7 @@
     margin:1px;
 }
 #board {
+    width:450px;
     background-color:transparent;
     display:inline-block;
 }

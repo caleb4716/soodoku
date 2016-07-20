@@ -14,63 +14,62 @@ $(document).ready(function(){
     
     //Classes====================================================================================================================================
     
-    class Square {
-        constructor(xPos, yPos, region, id) {
-            this.colID = xPos;
-            this.rowID = yPos;
-            this.regionID = region;
-            this.selector = "#" + id;
-            this.tempVal = -1;
-            this.locked = false;
-            this.value = -1;
-        }
-        updateValue(newVal){ //Takes new value, updates current value, checks for errors
-            this.value = newVal;
-            this.realValue();
-            this.errorCheckBoard();
-        }
-        numberPadValue(){ //Updates square to display numberpad (tempVal) value
-            $(this.selector).text(this.tempVal);
-        }
-        realValue(){ //Update display to reflect squares real value
-            if(this.value != -1){
-                $(this.selector).text(this.value);
+    var Square = function(xPos, yPos, region, id){
+        this.colID = xPos;
+        this.rowID = yPos;
+        this.regionID = region;
+        this.selector = "#" + id;
+        this.tempVal = -1;
+        this.locked = false;
+        this.value = -1;
+    }
+    
+    Square.prototype.updateValue = function(newVal){
+        this.value = newVal;
+        this.realValue();
+        this.errorCheckBoard();
+    } 
+    
+    Square.prototype.numberPadValue = function(){ //Updates square to display numberpad (tempVal) value
+        $(this.selector).text(this.tempVal);
+    }
+    Square.prototype.realValue = function(){ //Update display to reflect squares real value
+        if(this.value != -1){
+            $(this.selector).text(this.value);
                 
-            } else {
-                $(this.selector).text("");
-            }
-            
+        } else {
+            $(this.selector).text("");
         }
+            
+    }
         
-        errorCheckBoard(){
-            $('.square').removeClass('infected');
-            var infected = new Array();
-            for(var i = 0; i < 9; i++){
-                if(hasDuplicates(fullRegionArray[i])){
-                    infected.push(fullRegionArray[i]);
-                }
-                if(hasDuplicates(fullColumnArray[i])){
-                    infected.push(fullColumnArray[i]);
-                }
-                if(hasDuplicates(fullRowArray[i])){
-                    infected.push(fullRowArray[i]);
+    Square.prototype.errorCheckBoard = function(){
+        $('.square').removeClass('infected');
+        var infected = new Array();
+        for(var i = 0; i < 9; i++){
+            if(hasDuplicates(fullRegionArray[i])){
+                infected.push(fullRegionArray[i]);
+            }
+            if(hasDuplicates(fullColumnArray[i])){
+                infected.push(fullColumnArray[i]);
+            }
+            if(hasDuplicates(fullRowArray[i])){
+                infected.push(fullRowArray[i]);
+            }
+        }
+        for(var i = 0; i < infected.length; i++){
+            for(var ii = 0; ii < infected[i].length; ii++){
+                $(infected[i][ii].selector).addClass('infected');
+            }
+        }
+        if(infected.length == 0){ //this is wrongly firing victories. needs fixing
+            for(var i = 0; i < fullSquareArray.length; i++){
+                if(fullSquareArray[i].value == -1){
+                    break;
+                } else if(i = 80){
+                    victory();
                 }
             }
-            for(var i = 0; i < infected.length; i++){
-                for(var ii = 0; ii < infected[i].length; ii++){
-                    $(infected[i][ii].selector).addClass('infected');
-                }
-            }
-            if(infected.length == 0){ //this is wrongly firing victories. needs fixing
-                for(var i = 0; i < fullSquareArray.length; i++){
-                    if(fullSquareArray[i].value == -1){
-                        break;
-                    } else if(i = 80){
-                        victory();
-                    }
-                }
-            }
-        
         }
         
     }
