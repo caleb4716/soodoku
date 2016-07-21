@@ -5,7 +5,8 @@
     var numberPad;
     var selectedRegion;
     var selectedSquare;
-    var currentPuzzle;
+    var currentDifficulty;
+    var currentPuzzleId;
 
 //Following is not good. Keep even # of json in each difficulty dir, hardcode here for randomized puzzle picking within dir
 var puzzleCount = 8;
@@ -83,7 +84,8 @@ $(document).ready(function(){
     }
     
     $('#puzzle-div').append(newEmptyBoardStringDos());
-    currentPuzzle = "";
+    currentDifficulty = ""
+    currentPuzzleId = "";
     setSquareListeners();
     
     
@@ -125,14 +127,13 @@ $(document).ready(function(){
     
     $('#btn-reset').on('click', function(){
         
-        clearAndSetBoard(currentPuzzle);
+        clearAndSetBoard(currentDifficulty, currentPuzzleId);
         
     });
     
     $('.btn-difficulty-select').on('click', function(){
         var difficulty = $(this).attr('id');
         if(difficulty == 'random'){
-            //Randomly reassign difficulty var to easy, med, hard, impossible NOT CURRENTLY RANDOM NEEDS WORK
             var dirID = Math.floor((Math.random() * 4) + 1);
             switch(dirID) {
                 case 1:
@@ -149,10 +150,8 @@ $(document).ready(function(){
                     break;
             }
         }
-        //Fix this stuff when you have time. Find a way to dynamically count difficulty dirs
         var puzzleID = Math.floor((Math.random() * puzzleCount) + 1);
-        var path = "json/" + difficulty + "/" + puzzleID + ".json";
-        clearAndSetBoard(path);
+        clearAndSetBoard(difficulty, puzzleID);
         updateDifficultyFooter(difficulty, puzzleID);
     });
     
@@ -178,20 +177,41 @@ $(document).ready(function(){
         $('#difficulty-label').html(htmlInsert);
     }
     
-    function loadBoard(srcPath){
-        $.getJSON(srcPath)
+    function loadBoard(difficulty, id){
+//        $.getJSON(srcPath)
+//        .done(function(data){
+//            $.each(data, function(id, val){
+//                if(val != -1){
+//                    fullSquareArray[id].updateValue(val);
+//                    fullSquareArray[id].locked = true;
+//                    $(fullSquareArray[id].selector).addClass('locked');
+//                }
+//            });
+//            borderize();
+//        })
+//        .fail(function(){
+//            //json load failed
+//        });
+        
+        $.getJSON('json/puzzle-data.json')
         .done(function(data){
-            $.each(data, function(id, val){
-                if(val != -1){
-                    fullSquareArray[id].updateValue(val);
-                    fullSquareArray[id].locked = true;
-                    $(fullSquareArray[id].selector).addClass('locked');
+            console.log(difficulty + " " + id);
+            $.each(data, function(dif_key, val){
+                if(dif_key == difficulty){
+                    //val[id - 1] references what used to be the data in the old individual board json files
+                    $.each(val[id - 1], function(sqr_id, value){
+                        if(value != -1){
+                            fullSquareArray[sqr_id].updateValue(value);
+                            fullSquareArray[sqr_id].locked = true;
+                            $(fullSquareArray[sqr_id].selector).addClass('locked');
+                        }
+                    });
                 }
             });
             borderize();
         })
         .fail(function(){
-            //json load failed
+            
         });
     }
     
@@ -221,12 +241,6 @@ $(document).ready(function(){
                     else{regionID = 8;}
                 }
                 registerNewSquare(x,y,regionID,id);
-//                var thisSquare = new Square(x, y, regionID, id);
-//                fullSquareArray.push(thisSquare);
-//                fullRowArray[y][x] = thisSquare;
-//                fullColumnArray[x][y] = thisSquare;
-//                fullRegionArray[thisSquare.regionID].push(thisSquare);
-//                thisSquare.tempVal = fullRegionArray[thisSquare.regionID].length;
                 id++;
             }
             htmlBuildString += "<br>";
@@ -237,7 +251,7 @@ $(document).ready(function(){
         
     }
     
-    function clearAndSetBoard(src){
+    function clearAndSetBoard(dif, id){
         fullSquareArray = [];
         
         for(var i = 0; i < 9; i++){
@@ -253,10 +267,12 @@ $(document).ready(function(){
         selectedSquare = null;
         $('#board').remove();
         $('#puzzle-div').append(newEmptyBoardStringDos());
-        loadBoard(src);
+        loadBoard(dif, id);
         setSquareListeners();
-        currentPuzzle = src;
+        currentPuzzleId = id;
+        currentDifficulty = dif;
     }
+    
     
     function registerNewSquare(x, y, regionID, id){ //Builds new square with passed info, registers with all tracking arrays, sets TempVal
         var thisSquare = new Square(x, y, regionID, id);
