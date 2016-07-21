@@ -15,6 +15,9 @@ body {
 .panel, .panel-default, .panel-body, .btn-group {
     background-color:transparent;
 }
+.btn-group {
+    margin-bottom:10px;
+}
 
 
 
@@ -41,6 +44,7 @@ body {
 #difficulty-label {
     text-transform: capitalize;
 }
+
 button#impossible {
     background-color:#777;
     color:white;
@@ -63,6 +67,14 @@ button#impossible {
     #board, #control-panel {
         width:100vw;
     }
+    .btn-group {
+        width:100%;
+    }
+    .btn, .btn-default {
+        display:block;
+        width:100%;
+        border-radius:4px !important;
+    }
     .square {
         height:11vw;
         width:11vw;
@@ -72,4 +84,14 @@ button#impossible {
         padding-right:0px !important;
     }
     
+}
+
+
+    Ipod touch width
+
+@media screen and (device-width: 320px) {
+    .square {
+        height:35px !important;
+        width:35px !important;
+    }
 }
