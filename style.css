@@ -65,7 +65,7 @@ button#impossible {
 @media screen and (max-width: 450px) {
     
     #board, #control-panel {
-        width:100vw;
+        width:100%;
     }
     .btn-group {
         width:100%;
@@ -78,20 +78,11 @@ button#impossible {
     .square {
         height:11vw;
         width:11vw;
+        max-width:calc(100%/9);
     }
     .container-fluid {
         padding-left:0px !important;
         padding-right:0px !important;
     }
     
-}
-
-
-    Ipod touch width
-
-@media screen and (device-width: 320px) {
-    .square {
-        height:35px !important;
-        width:35px !important;
-    }
 }
