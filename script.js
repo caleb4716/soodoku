@@ -8,6 +8,11 @@
     var currentDifficulty;
     var currentPuzzleId;
 
+    var easyCount;
+    var mediumCount;
+    var difficultCount;
+    var impossibleCount;
+
 //Following is not good. Keep even # of json in each difficulty dir, hardcode here for randomized puzzle picking within dir
 var puzzleCount = 8;
 
@@ -84,6 +89,7 @@ $(document).ready(function(){
     }
     
     $('#puzzle-div').append(newEmptyBoardStringDos());
+    loadInitializeChooseButtons();
     currentDifficulty = ""
     currentPuzzleId = "";
     setSquareListeners();
@@ -152,7 +158,6 @@ $(document).ready(function(){
         }
         var puzzleID = Math.floor((Math.random() * puzzleCount) + 1);
         clearAndSetBoard(difficulty, puzzleID);
-        updateDifficultyFooter(difficulty, puzzleID);
     });
     
     function updateDifficultyFooter(dif, id){
@@ -177,21 +182,7 @@ $(document).ready(function(){
         $('#difficulty-label').html(htmlInsert);
     }
     
-    function loadBoard(difficulty, id){
-//        $.getJSON(srcPath)
-//        .done(function(data){
-//            $.each(data, function(id, val){
-//                if(val != -1){
-//                    fullSquareArray[id].updateValue(val);
-//                    fullSquareArray[id].locked = true;
-//                    $(fullSquareArray[id].selector).addClass('locked');
-//                }
-//            });
-//            borderize();
-//        })
-//        .fail(function(){
-//            //json load failed
-//        });
+    function loadBoard(difficulty, id){ //loads (id - 1)
         
         $.getJSON('json/puzzle-data.json')
         .done(function(data){
@@ -211,7 +202,7 @@ $(document).ready(function(){
             borderize();
         })
         .fail(function(){
-            
+            //JSON load failure
         });
     }
     
@@ -271,6 +262,7 @@ $(document).ready(function(){
         setSquareListeners();
         currentPuzzleId = id;
         currentDifficulty = dif;
+        updateDifficultyFooter(currentDifficulty, currentPuzzleId);
     }
     
     
@@ -321,6 +313,60 @@ $(document).ready(function(){
     
     function victory(){ // this function should be called when all squares are filled and no errors are detected
         console.log('Victory detected');
+    }
+    
+    function loadInitializeChooseButtons(){
+        
+        $.getJSON('json/puzzle-data.json')
+        .done(function(data){
+            
+            $.each(data, function(key, val){
+                var puzzleCount = val.length;
+                switch(key){
+                    case "easy":
+                        easyCount = puzzleCount;
+                        break;
+                    case "medium":
+                        mediumCount = puzzleCount;
+                        break;
+                    case "difficult":
+                        difficultCount = puzzleCount;
+                        break;
+                    case "impossible":
+                        impossibleCount = puzzleCount;
+                        break;
+                }
+            });
+            //HTML Building for specific board pick modal
+            var $insertPoint = $("#choose-panel");
+            var inputString = "<span class='label label-success label-choose'>Easy</span>";
+            for(var i = 1; i < easyCount+1; i++){
+                inputString += "<button class='btn-choose-easy' id='easy-" + i + "' data-dismiss='modal'>" + i + "</button>";
+            }
+            inputString += "<span class='label label-warning label-choose'>Medium</span>";
+            for(var i = 1; i < mediumCount+1; i++){
+                inputString += "<button class='btn-choose-medium' id='medium-" + i + "' data-dismiss='modal'>" + i + "</button>";
+            }
+            inputString += "<span class='label label-danger label-choose'>Difficult</span>";
+            for(var i = 1; i < difficultCount+1; i++){
+                inputString += "<button class='btn-choose-difficult' id='difficult-" + i + "' data-dismiss='modal'>" + i + "</button>";
+            }
+            inputString += "<span class='label label-default label-choose'>Impossible</span>";
+            for(var i = 1; i < impossibleCount+1; i++){
+                inputString += "<button class='btn-choose-impossible' id='impossible-" + i + "' data-dismiss='modal'>" + i + "</button>";
+            }
+            $insertPoint.append(inputString);
+            $(".btn-choose-easy, .btn-choose-medium, .btn-choose-difficult, .btn-choose-impossible").on('click', function(){
+                var idData = $(this).attr('id').split('-');
+                clearAndSetBoard(idData[0], idData[1]); //Passes difficulty and id stored in buttons id
+            });
+            
+            
+        })
+        .fail(function(){
+            
+        });
+        
     }
 
 });
