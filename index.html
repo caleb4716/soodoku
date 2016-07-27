@@ -44,6 +44,12 @@
                             <button type="button" id="btn-new" class="btn btn-default" data-toggle="modal" data-target="#random-board-modal">
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Random
                             </button>
+                            <!-- No ID currently assigned -->
+                            <button type="button" id="" class="btn btn-default" data-toggle="modal" data-target="#choose-board-modal">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Choose New
+                            </button>
+                        </div>
+                        <div class="btn-group">
                             <button type="button" id="btn-reset" class="btn btn-default">
                                 <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Reset Board
                             </button>
@@ -87,6 +93,24 @@
                                 <button type="button" id="random" class="btn btn-default btn-difficulty-select" data-dismiss="modal">I'm feeling lucky (Random)</button>
                             </div>
                         </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal for loading new specified board, incomplete -->
+        
+        <div class="modal fade" id="choose-board-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1>New Board Difficulty</h1>
+                    </div>
+                    <div id="choose-panel" class="modal-body">
                         
                     </div>
                     <div class="modal-footer">

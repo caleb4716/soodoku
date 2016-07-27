@@ -59,13 +59,18 @@ button#impossible {
     background-image:url(textures/blue_texture_1.jpe);
     font-weight:normal;
 }
+.label-choose {
+    display:block !important;
+    margin:20px;
+    font-size:100% !important;
+}
 
 
 
 @media screen and (max-width: 450px) {
     
     #board, #control-panel {
-        width:100%;
+        width:100vw;
     }
     .btn-group {
         width:100%;
@@ -78,7 +83,6 @@ button#impossible {
     .square {
         height:11vw;
         width:11vw;
-        max-width:calc(100%/9);
     }
     .container-fluid {
         padding-left:0px !important;
